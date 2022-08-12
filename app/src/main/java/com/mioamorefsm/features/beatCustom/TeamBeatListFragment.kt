@@ -266,7 +266,7 @@ class TeamBeatListFragment : BaseFragment(), DatePickerDialog.OnDateSetListener,
             val widths = floatArrayOf(0.20f, 0.20f,0.20f,0.20f,0.20f)
 
             for(l in 0..shareBeatModel.size-1){
-                val dateBeatHead = Paragraph("Beat : ${shareBeatModel.get(l).beatName!!}" + "       Date: " + AppUtils.getFormatedDateNew(shareBeatModel.get(l).date!!,"yyyy-mm-dd","dd-mm-yyyy") , fontBlueColor)
+                val dateBeatHead = Paragraph("${Pref.beatText} : ${shareBeatModel.get(l).beatName!!}" + "       Date: " + AppUtils.getFormatedDateNew(shareBeatModel.get(l).date!!,"yyyy-mm-dd","dd-mm-yyyy") , fontBlueColor)
                 dateBeatHead.alignment = Element.ALIGN_LEFT
                 dateBeatHead.spacingAfter = 5f
                 document.add(dateBeatHead)

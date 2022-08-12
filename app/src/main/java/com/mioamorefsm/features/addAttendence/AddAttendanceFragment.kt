@@ -1769,7 +1769,7 @@ class AddAttendanceFragment : Fragment(), View.OnClickListener, DatePickerDialog
             if (TextUtils.isEmpty(workTypeId))
                 (mContext as DashboardActivity).showSnackMessage("Please select work type")
             else if(TextUtils.isEmpty(mbeatId) && Pref.IsBeatRouteAvailableinAttendance)
-                openDialogPopup("Hi! (${Pref.user_name})","Please select beat type")
+                openDialogPopup("Hi! (${Pref.user_name})","Please select ${Pref.beatText} type")
             else {
                 if (tv_work_type.text.contains("Field")) {
                     val list_ = AppDatabase.getDBInstance()?.routeDao()?.getAll()

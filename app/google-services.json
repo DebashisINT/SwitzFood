@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "44861425230",
+    "project_id": "mio-amore-fsm",
+    "storage_bucket": "mio-amore-fsm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44861425230:android:81cd2cee52580b48e9e51f",
+        "android_client_info": {
+          "package_name": "com.mioamorefsm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44861425230-hjduon70pj0al6krffek5cgki6m4k3qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-oBmWDgP0lhF_QEu-RlU5oBFod76EmsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44861425230-hjduon70pj0al6krffek5cgki6m4k3qh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

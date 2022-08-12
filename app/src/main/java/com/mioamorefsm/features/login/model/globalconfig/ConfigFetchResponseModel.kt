@@ -95,7 +95,7 @@ class ConfigFetchResponseModel : BaseResponse() {
 
     var IsBeatRouteAvailableinAttendance:Boolean? = null
     var IsAllBeatAvailable:Boolean? = null
-    var beatText: String = ""
+    var BeatText: String = ""
     var TodaysTaskText:String = ""
 
 

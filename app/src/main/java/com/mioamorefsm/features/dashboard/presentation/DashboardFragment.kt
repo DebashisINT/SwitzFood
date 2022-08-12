@@ -3801,8 +3801,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, HBRecorderListen
                                 if (configResponse.IsAllBeatAvailable != null)
                                     Pref.IsAllBeatAvailableforParty = configResponse.IsAllBeatAvailable!!
 
-                                if (configResponse.beatText != null)
-                                    Pref.beatText=configResponse.beatText!!
+                                if (configResponse.BeatText != null)
+                                    Pref.beatText=configResponse.BeatText!!
 
                                 if (configResponse.TodaysTaskText != null)
                                     Pref.TodaysTaskText=configResponse.TodaysTaskText!!

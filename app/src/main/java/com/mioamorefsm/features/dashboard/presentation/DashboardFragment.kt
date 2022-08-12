@@ -4736,7 +4736,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, HBRecorderListen
         avgShop.text = todaysShopVisitCount
         avgTime.text = InfoWizard.getAverageShopVisitTimeDuration() + " Hrs"
 
-        best_performing_shop_TV.text = getString(R.string.todays_task)
+        best_performing_shop_TV.text =  "${Pref.TodaysTaskText}"
 
         tv_pick_date_range.text = AppUtils.getFormattedDate(myCalendar.time)
 

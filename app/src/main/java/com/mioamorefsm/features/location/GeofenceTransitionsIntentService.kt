@@ -34,11 +34,11 @@ class GeofenceTransitionsIntentService : IntentService("GeofenceTransitionsInten
     override fun onHandleIntent(intent: Intent?) {
 
         XLog.d("Geofence: GeofenceTransitionsJobIntentService : ENTRY")
-        val geofencingEvent = GeofencingEvent.fromIntent(intent)
-        if (geofencingEvent.hasError()) {
+        val geofencingEvent = GeofencingEvent.fromIntent(intent!!)
+        if (geofencingEvent!!.hasError()) {
 //            val errorMessage = GeofenceErrorMessages.getErrorString(this,
 //                    geofencingEvent.errorCode)
-            Log.e(TAG, "${geofencingEvent.errorCode}")
+            Log.e(TAG, "${geofencingEvent!!.errorCode}")
             return
         }
 
@@ -49,12 +49,12 @@ class GeofenceTransitionsIntentService : IntentService("GeofenceTransitionsInten
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
-            val triggeringGeofences = geofencingEvent.triggeringGeofences
+            val triggeringGeofences = geofencingEvent!!.triggeringGeofences
 
             // Get the transition details as a String.
             val geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
-                    triggeringGeofences)
-            triggeringGeofences.forEach {
+                    triggeringGeofences!!)
+            triggeringGeofences?.forEach {
                 //                it.requestId
                 // Send notification and log the transition details.
                 XLog.d("=====================Geofence=======================")

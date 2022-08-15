@@ -453,7 +453,7 @@ object Pref : PreferenceHolder() {
 
     var IsBeatRouteAvailableinAttendance: Boolean by bindToPreferenceField(false, "IsBeatRouteAvailableinAttendance")
     var SelectedBeatIDFromAttend: String by bindToPreferenceField("0", "SelectedBeatIDFromAttend")
-    var IsAllBeatAvailableforParty: Boolean by bindToPreferenceField(false, "IsAllBeatAvailable")
+    var IsAllBeatAvailableforParty: Boolean by bindToPreferenceField(false, "IsAllBeatAvailableforParty")
     var ShowAttednaceClearmenu: Boolean by bindToPreferenceField(false, "ShowAttednaceClearmenu")
     var IsBeatRouteReportAvailableinTeam: Boolean by bindToPreferenceField(false, "IsBeatRouteReportAvailableinTeam")
     var beatText: String by bindToPreferenceField("Beat", "beatText")

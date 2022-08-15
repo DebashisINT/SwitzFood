@@ -12,26 +12,20 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.location.GnssStatus
 import android.location.GpsStatus
 import android.location.Location
 import android.location.LocationManager
 import android.os.*
+import android.text.TextUtils
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import android.text.TextUtils
-import android.util.Log
-import com.mioamorefsm.CustomStatic
 import com.mioamorefsm.MonitorBroadcast
-import com.elvishew.xlog.XLog
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.mioamorefsm.R
 import com.mioamorefsm.app.*
 import com.mioamorefsm.app.Pref.tempDistance
@@ -57,14 +51,17 @@ import com.mioamorefsm.features.location.LocationWizard.Companion.NEARBY_RADIUS
 import com.mioamorefsm.features.location.api.LocationRepoProvider
 import com.mioamorefsm.features.location.ideallocapi.IdealLocationRepoProvider
 import com.mioamorefsm.features.location.model.*
-import com.mioamorefsm.features.location.shopRevisitStatus.ShopRevisitStatusRepository
 import com.mioamorefsm.features.location.shopRevisitStatus.ShopRevisitStatusRepositoryProvider
 import com.mioamorefsm.features.location.shopdurationapi.ShopDurationRepositoryProvider
 import com.mioamorefsm.features.orderhistory.api.LocationUpdateRepositoryProviders
 import com.mioamorefsm.features.orderhistory.model.LocationData
 import com.mioamorefsm.features.orderhistory.model.LocationUpdateRequest
-import com.mioamorefsm.mappackage.SendBrod.Companion.monitorNotiID
-import com.google.android.gms.maps.model.LatLng
+import com.elvishew.xlog.XLog
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -76,7 +73,6 @@ import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 
 /**
@@ -88,6 +84,8 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
     override fun onComplete(p0: Task<Void>) {
 
     }
+
+
 
     var mGoogleAPIClient: GoogleApiClient? = null
     private var mLocationRequest: LocationRequest? = null
@@ -174,6 +172,42 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
 
         monitorBroadcast= MonitorBroadcast()
 
+
+
+//// new code
+        /*var notificationIntent = Intent(this, DashboardActivity::class.java)
+        notificationIntent.action = AppConstant.MAIN_ACTION
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        var icon = BitmapFactory.decodeResource(resources,
+            R.drawable.ic_add)
+
+        var pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0,
+            notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationTitle = "${AppUtils.hiFirstNameText()}, thanks for using FSM App."
+        val channelId = AppUtils.notificationChannelId
+        val channelName = AppUtils.notificationChannelName
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val notificationChannel = NotificationChannel(channelId, channelName, importance)
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = applicationContext.getColor(R.color.colorPrimary)
+        notificationChannel.enableVibration(true)
+        notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        notificationManager.createNotificationChannel(notificationChannel)
+
+        val notification = NotificationCompat.Builder(this)
+            .setContentTitle(notificationTitle)
+            .setTicker("")
+            .setContentText("")
+            .setSmallIcon(R.drawable.ic_notifications_icon)
+            .setLargeIcon(
+                Bitmap.createScaledBitmap(icon, 128, 128, false))
+            .setContentIntent(pendingIntent)
+            .setOngoing(true)
+            .setChannelId(channelId)
+            .build()
+        startForeground(AppConstant.FOREGROUND_SERVICE, notification)*/
     }
 
     fun updateNearbyShopLocationData(shopName: String, shopId: String, localShopId: String) {
@@ -218,8 +252,9 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
 
-            var pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0)
+            //var pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            // FLAG_IMMUTABLE update
+            var pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
 
             var icon = BitmapFactory.decodeResource(resources,
@@ -349,6 +384,8 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
                 Log.e(TAG, "mGoogleAPIClient connected: $mGoogleAPIClient")
                 mGoogleAPIClient?.connect()
             }
+
+
 
             //showOrderCollectionAlert()
 
@@ -509,7 +546,7 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
     @SuppressLint("MissingPermission")
     override fun onConnected(@Nullable bundle: Bundle?) {
         Log.e(TAG, "onConnected: ")
-        val lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleAPIClient)
+        val lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleAPIClient!!)
         if (lastLocation != null && lastLocation.latitude != null && lastLocation.latitude != 0.0) {
             Pref.current_latitude = lastLocation.latitude.toString()
             Pref.current_longitude = lastLocation.longitude.toString()
@@ -525,7 +562,7 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleAPIClient, mLocationRequest, this) //getting error here..for casting..!
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleAPIClient!!, mLocationRequest!!, this) //getting error here..for casting..!
 
     }
 
@@ -2539,7 +2576,9 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        // FLAG_IMMUTABLE update
+        mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return mGeofencePendingIntent
     }
 
@@ -3730,10 +3769,21 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
         return Pair(latNew, lonNew)
     }
 
+    lateinit var mGnssStatusCallback : GnssStatus.Callback
     @SuppressLint("MissingPermission")
     private fun registerGpsStatusListener() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.addGpsStatusListener(this)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q){
+            mGnssStatusCallback = object : GnssStatus.Callback() {
+                override fun onSatelliteStatusChanged(status: GnssStatus) {
+                    super.onSatelliteStatusChanged(status)
+                }
+            }
+            locationManager.registerGnssStatusCallback(mGnssStatusCallback!!)
+        }else{
+            locationManager.addGpsStatusListener(this)
+        }
+
     }
 
     override fun onGpsStatusChanged(p0: Int) {

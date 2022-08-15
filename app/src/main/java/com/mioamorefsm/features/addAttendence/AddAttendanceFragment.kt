@@ -383,7 +383,7 @@ class AddAttendanceFragment : Fragment(), View.OnClickListener, DatePickerDialog
        // faceDetectorSetUp()
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
+  /*  override fun onMapReady(googleMap: GoogleMap?) {
         mGoogleMap = googleMap
         mGoogleMap?.uiSettings?.isZoomControlsEnabled = true
 
@@ -396,15 +396,15 @@ class AddAttendanceFragment : Fragment(), View.OnClickListener, DatePickerDialog
 
             markerOptions.also {
                 it.position(latLng)
-                /*it.title(locationName)
-                it.snippet(locationName)*/
+                *//*it.title(locationName)
+                it.snippet(locationName)*//*
                 it.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 mGoogleMap?.addMarker(it)!!
             }
 
             tv_address.text = LocationWizard.getLocationName(mContext, Pref.current_latitude.toDouble(), Pref.current_longitude.toDouble())
         }
-    }
+    }*/
 
 
     private var selectedRoute = ArrayList<RouteEntity>()
@@ -3395,6 +3395,30 @@ class AddAttendanceFragment : Fragment(), View.OnClickListener, DatePickerDialog
             simpleDialog.cancel()
         })
         simpleDialog.show()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mGoogleMap = googleMap
+        mGoogleMap?.uiSettings?.isZoomControlsEnabled = true
+
+        if (!TextUtils.isEmpty(Pref.current_latitude) && !TextUtils.isEmpty(Pref.current_longitude)) {
+            mGoogleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(Pref.current_latitude.toDouble(),
+                Pref.current_longitude.toDouble()), 15f))
+
+            val latLng = LatLng(Pref.current_latitude.toDouble(), Pref.current_longitude.toDouble())
+            val markerOptions = MarkerOptions()
+
+            markerOptions.also {
+                it.position(latLng)
+                /*it.title(locationName)
+                it.snippet(locationName)*/
+                it.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                mGoogleMap?.addMarker(it)!!
+            }
+
+            tv_address.text = LocationWizard.getLocationName(mContext, Pref.current_latitude.toDouble(), Pref.current_longitude.toDouble())
+        }
+
     }
 
 }

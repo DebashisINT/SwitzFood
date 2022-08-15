@@ -323,7 +323,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.putExtra("request_code", requestCode)
-            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            //val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            // FLAG_IMMUTABLE update
+            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val calendar = Calendar.getInstance(Locale.ENGLISH)
 

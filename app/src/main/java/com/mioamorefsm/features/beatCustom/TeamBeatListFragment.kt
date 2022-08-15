@@ -585,6 +585,13 @@ class TeamBeatListFragment : BaseFragment(), DatePickerDialog.OnDateSetListener,
 
             if(finalList.size>0){
                 finalList = finalList.reversed() as ArrayList<BeatViewModel>
+
+                for(i in 0..finalList.size-1){
+                    for(j in 0..finalList.get(i).beatList.size-1){
+                        finalList.get(i).beatList = finalList.get(i).beatList.reversed() as ArrayList<BeatViewListModel>
+                    }
+                }
+
                 shareBeatModel=finalList
                 beatTeamListAdapter = BeatTeamListAdapter(mContext,finalList)
                 rv_list.adapter=beatTeamListAdapter

@@ -3680,8 +3680,13 @@ class LocationFuzedService : Service(), GoogleApiClient.ConnectionCallbacks, Goo
         unregisterReceiver(eventReceiver)
 
         // FLAG_IMMUTABLE update
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.unregisterGnssStatusCallback(mGnssStatusCallback)
+        try{
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager.unregisterGnssStatusCallback(mGnssStatusCallback)
+        }catch (ex:Exception){
+            ex.printStackTrace()
+        }
+
 
         XLog.e("onDestroy : " + "LocationFuzedService")
 //        removeGeofence()

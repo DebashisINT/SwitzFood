@@ -458,4 +458,6 @@ object Pref : PreferenceHolder() {
     var IsBeatRouteReportAvailableinTeam: Boolean by bindToPreferenceField(false, "IsBeatRouteReportAvailableinTeam")
     var beatText: String by bindToPreferenceField("Beat", "beatText")
     var TodaysTaskText: String by bindToPreferenceField("Today's Task", "TodaysTaskText")
+    var isLocationHintPermissionGranted: Boolean by bindToPreferenceField(false, "isLocationHintPermissionGranted")
+    var AutostartPermissionStatus: Boolean by bindToPreferenceField(false, "AutostartPermissionStatus")
 }

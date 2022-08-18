@@ -214,7 +214,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.putExtra("requestCode", requestCode)
-            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT)
+            //val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT)
+            // FLAG_IMMUTABLE update
+            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val calendar = Calendar.getInstance(Locale.ENGLISH)
 
@@ -238,7 +240,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
             val intent = Intent(context, AlarmReceiver::class.java)
             intent.putExtra("requestCode", requestCode)
-            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT)
+            //val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT)
+            // FLAG_IMMUTABLE update
+            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val calendar = Calendar.getInstance(Locale.ENGLISH)
 
@@ -285,7 +289,9 @@ class AlarmReceiver : BroadcastReceiver() {
         fun stopAlarmManager(context: Context, alarmRequestCode: Int) {
             val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val alarmIntent = Intent(context, AlarmReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, alarmRequestCode, alarmIntent, PendingIntent.FLAG_NO_CREATE)
+            //val pendingIntent = PendingIntent.getBroadcast(context, alarmRequestCode, alarmIntent, PendingIntent.FLAG_NO_CREATE)
+            // FLAG_IMMUTABLE update
+            val pendingIntent = PendingIntent.getBroadcast(context, alarmRequestCode, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
             if (pendingIntent != null) {
                 manager.cancel(pendingIntent)//cancel the alarm manager of the pending intent
             }

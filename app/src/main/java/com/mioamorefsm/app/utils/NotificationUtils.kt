@@ -692,7 +692,9 @@ class NotificationUtils(headerText: String, bodyText: String, shopId: String, lo
         }
 
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, notificationIntent, 0)
+        //val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, notificationIntent, 0)
+        // FLAG_IMMUTABLE update
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = AppUtils.notificationChannelId

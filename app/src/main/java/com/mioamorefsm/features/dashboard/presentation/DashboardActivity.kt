@@ -12204,6 +12204,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
 
     private fun getSupervisorIDInfo(){
         try{
+            progress_wheel.spin()
             val repository = AddAttendenceRepoProvider.addAttendenceRepo()
             BaseActivity.compositeDisposable.add(
                 repository.getReportToUserID(Pref.user_id.toString(),Pref.session_token.toString())
@@ -12211,7 +12212,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
                     .subscribeOn(Schedulers.io())
                     .subscribe({ result ->
                         val response = result as GetReportToResponse
-
+                        progress_wheel.stopSpinning()
                         if (response.status == NetworkConstant.SUCCESS) {
                             getSupervisorFCMInfo(response.report_to_user_id!!)
                         }
@@ -12225,12 +12226,14 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
             )
         }catch (ex:Exception){
             ex.printStackTrace()
+            progress_wheel.stopSpinning()
         }
 
     }
 
     private fun getSupervisorFCMInfo(usrID:String){
         try{
+            progress_wheel.spin()
             val repository = AddAttendenceRepoProvider.addAttendenceRepo()
             BaseActivity.compositeDisposable.add(
                 repository.getReportToFCMInfo(usrID,Pref.session_token.toString())
@@ -12238,6 +12241,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
                     .subscribeOn(Schedulers.io())
                     .subscribe({ result ->
                         val response = result as GetReportToFCMResponse
+                        progress_wheel.stopSpinning()
                         if (response.status == NetworkConstant.SUCCESS) {
                             sendFCMNotiSupervisor(response.device_token!!)
                         }
@@ -12250,6 +12254,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
             )
         }catch (ex:Exception){
             ex.printStackTrace()
+            progress_wheel.stopSpinning()
         }
 
     }
@@ -12257,6 +12262,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
     private fun sendFCMNotiSupervisor(superVisor_fcmToken:String){
         if (superVisor_fcmToken != "") {
             try {
+                progress_wheel.spin()
                 val jsonObject = JSONObject()
                 val notificationBody = JSONObject()
                 notificationBody.put("body","Attendance/Leave cleared by : "+Pref.user_name!!)
@@ -12265,24 +12271,27 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
                 val jsonArray = JSONArray()
                 jsonArray.put(0,superVisor_fcmToken)
                 jsonObject.put("registration_ids", jsonArray)
+                progress_wheel.stopSpinning()
                 sendCustomNotificationForAttLeavClear(jsonObject)
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
+                progress_wheel.stopSpinning()
             }
         }
-
     }
 
     fun sendCustomNotificationForAttLeavClear(notification: JSONObject) {
+        progress_wheel.spin()
         val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notification,
             object : Response.Listener<JSONObject?> {
                 override fun onResponse(response: JSONObject?) {
+                    progress_wheel.stopSpinning()
                     AttendClearMsg()
                 }
             },
             object : Response.ErrorListener {
                 override fun onErrorResponse(error: VolleyError?) {
-
+                    progress_wheel.stopSpinning()
                 }
             }) {
             @Throws(AuthFailureError::class)

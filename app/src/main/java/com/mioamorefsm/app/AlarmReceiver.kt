@@ -280,7 +280,9 @@ class AlarmReceiver : BroadcastReceiver() {
             cal.add(Calendar.SECOND, 20)
             val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager//get instance of alarm manager
             val alarmIntent = Intent(context, AlarmReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, alarmIntent, 0)
+            //val pendingIntent = PendingIntent.getBroadcast(context, requestCode, alarmIntent, 0)
+            // FLAG_IMMUTABLE update
+            val pendingIntent = PendingIntent.getBroadcast(context, requestCode, alarmIntent,PendingIntent.FLAG_IMMUTABLE)
             manager.set(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)//set alarm manager with entered timer by converting into milliseconds
 
 

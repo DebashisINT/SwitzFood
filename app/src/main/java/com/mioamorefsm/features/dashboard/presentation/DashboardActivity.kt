@@ -327,7 +327,7 @@ class DashboardActivity : BaseActivity(), View.OnClickListener, BaseNavigation, 
             XLog.d("token : " + token.toString())
         })
 
-        println("load frag " + mFragType.toString() + "     " + Pref.SelectedBeatIDFromAttend.toString());
+        println("load frag " + mFragType.toString() + "     " + Pref.approvedOutTime.toString() + " "+ Pref.approvedInTime.toString());
 
         if (addToStack) {
             mTransaction.add(R.id.frame_layout_container, getFragInstance(mFragType, initializeObject, true)!!, mFragType.toString())

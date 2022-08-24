@@ -25,7 +25,7 @@ android {
         applicationId "com.mioamorefsm"
         minSdkVersion 26
         targetSdkVersion 31
-        versionCode 86
+        versionCode 87
         versionName "4.0.2"
         //versionName "2.3.0"
         vectorDrawables.useSupportLibrary = true
